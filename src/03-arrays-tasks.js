@@ -21,7 +21,7 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-  return arr.find((element) => element === value) || -1;
+  return arr.indexOf(value);
 }
 
 /**
@@ -36,13 +36,7 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  const oddArray = [];
-  for (let i = 0; oddArray.length < len; i += 1) {
-    if (i % 2 === 1) {
-      oddArray.push(i);
-    }
-  }
-  return oddArray;
+  return Array.from(new Array(len * 2).keys()).filter((num) => num % 2 === 1);
 }
 
 /**
@@ -149,7 +143,7 @@ function getStringsLength(arr) {
  *    [ 1, 'b', 'c'], 0, 'x'  => [ 'x', 1, 'b', 'c' ]
  */
 function insertItem(arr, item, index) {
-  return [...arr.slice(0, index), item, ...arr.slice(index)];
+  return arr.splice(index, 0, item);
 }
 
 /**
@@ -272,11 +266,9 @@ function getSecondItems(arr) {
  */
 function propagateItemsByPositionIndex(arr) {
   return arr.reduce((accumulator, currentValue, index) => {
-    for (let i = 0; i <= index; i += 1) {
-      accumulator.push(currentValue);
-    }
+    accumulator.push(new Array(index + 1).fill(currentValue));
     return accumulator;
-  }, []);
+  }, []).flat();
 }
 
 /**
@@ -311,7 +303,7 @@ function get3TopItems(arr) {
  *   [ 1, '2' ] => 1
  */
 function getPositivesCount(arr) {
-  return arr.reduce((count, num) => (num > 0 ? count + 1 : count), 0);
+  return arr.reduce((count, num) => (num > 0 && typeof num === 'number' ? count + 1 : count), 0);
 }
 
 /**
